@@ -1,10 +1,10 @@
 import React from 'react';
-import Title from "../Title";
+import MyTitle from "../UI/MyTitle";
 
 const Help = () => {
     return (
         <div className='wrapper'>
-            <Title title={'Види допомоги'} subtitle={'Ви можете змінинти вид допомоги'}/>
+            <MyTitle title={'Види допомоги'} subtitle={'Ви можете змінинти вид допомоги'}/>
         </div>
     );
 };
