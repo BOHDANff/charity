@@ -10,34 +10,38 @@ const PersonalDataForm = (props) => {
         firstName: yup
             .string()
             .required("This is a required field")
-            .matches(/^[\p{L}]+$/u, "First name must contain only characters"),
+            .matches(/^[\p{L}]+$/u, "First name must contain only characters")
+            .max(29, `Must be less than 30 characters`),
         lastName: yup
             .string()
             .required("This is a required field")
-            .matches(/^[\p{L}]+$/u, "Last name must contain only characters"),
+            .matches(/^[\p{L}]+$/u, "Last name must contain only characters")
+            .max(29, `Must be less than 30 characters`),
         organization: yup
             .string()
-            .required("This is a required field"),
-        priority: yup
-            .number()
-            .required("This is a required field"),
-        dueDate: yup
+            .required("This is a required field")
+            .max(100, `Must be less than 100 characters`),
+        email: yup
             .string()
-            .required("This is a required field"),
+            .required("This is a required field")
+            .email('Write your email correctly'),
+        phone: yup
+            .string()
+            .matches(/^([+]?[0-9]{10,14})?$/, "Write your phone number correctly"),
     })
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm({
         mode: "onChange",
         resolver: yupResolver(schema),
     })
-    const onSubmit = (formInfo) => {
-        console.log(formInfo);
+    const onSubmit = (persInfo) => {
+        console.log(persInfo);
         reset()
     }
     return (
         <>
             <MyForm onSubmit={handleSubmit(onSubmit)}>
-                <div style={{display:"flex", justifyContent:"space-between"}}>
+                <div style={{display:"flex", justifyContent:"space-between", width: "100%"}}>
                     <MyInput
                         {...register('firstName')}
                         id={'firstName'}
@@ -66,21 +70,20 @@ const PersonalDataForm = (props) => {
                     helperText={errors?.organization?.message}
                 />
                 <MyInput
-                    {...register('priority')}
-                    id={'priority'}
-                    type={'number'}
-                    label={'Priority'}
-                    error={!!errors.priority}
-                    helperText={errors?.title?.priority}
+                    {...register('email')}
+                    id={'email'}
+                    type={'email'}
+                    label={'Email-адреса'}
+                    error={!!errors.email}
+                    helperText={errors?.email?.message}
                 />
                 <MyInput
-                    {...register('dueDate')}
-                    id={'dueDate'}
-                    type={'date'}
-                    label={'Due date'}
-                    InputLabelProps={{ shrink: true }}
-                    error={!!errors.dueDate}
-                    helperText={errors?.dueDate?.message}
+                    {...register('phone')}
+                    id={'phone'}
+                    type={'phone'}
+                    label={'Номер телефону'}
+                    error={!!errors.phone}
+                    helperText={errors?.phone?.message}
                 />
             </MyForm>
         </>
